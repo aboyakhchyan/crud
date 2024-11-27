@@ -6,10 +6,10 @@ import { NextRequest } from "next/server";
 export const POST = async (req: NextRequest) => {
     const body = await req.json() as InputUser
 
-    const validate = await fieldsValidation(body)?.json().then(response => response)
+    const validate = await fieldsValidation(body)
 
-    if(validate.status == 'error') {
-        return Response.json(validate)
+    if(validate && validate.status == 'error') {
+        return Response.json({...validate})
     }
 
     const checkLogin = await getUserByLogin(body.login)
@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
         })
     }
 
-    const result = insertUser(body)
+    const result = await insertUser(body)
 
     if(result.changes == 1) {
         return Response.json({

@@ -16,14 +16,14 @@ const Home = () => {
   const onSubmit = (user: InputUser) => {
       axios.post(`http://localhost:3000/api/users`, user)
       .then(response => {
-          if(response.data.status = 'error') {
+        console.log(response.data)
+          if(response.data.message !== '') {
             setMessageError(response.data.message)
           }else {
             setMessageError('')
+            reset()
           }
       })
-
-      reset()
   }
   
   return (
